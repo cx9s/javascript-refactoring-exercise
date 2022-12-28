@@ -1,13 +1,11 @@
-function processTransactions(transActions) {
-  if (transActions === undefined) {
+function processTransactions(transactions) {
+  if (transactions === undefined) {
     throw new Error("Undefined collection of transactions");
   }
 
-  const txr = [];
-
   // transfer input into an object {'product1':number, 'product2':number}
   let txCount = {};
-  transActions.forEach((transaction) => {
+  transactions.forEach((transaction) => {
     txCount[transaction]
       ? (txCount[transaction] += 1)
       : (txCount[transaction] = 1);
@@ -16,16 +14,11 @@ function processTransactions(transActions) {
   txCount = sortByAmountThenName(txCount);
 
   // Place them back in array for returning
-  Object.keys(txCount).forEach((key) => {
-    txr.push(`${key} ${txCount[key]}`);
-  });
-
-  return txr;
+  return Object.keys(txCount).map((key) => `${key} ${txCount[key]}`);
 }
 
 function sortByAmountThenName(txCount) {
   const sortedTxCount = {};
-
   Object.keys(txCount)
     .sort()
     .sort((a, b) => {
